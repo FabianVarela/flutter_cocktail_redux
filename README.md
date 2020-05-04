@@ -1,6 +1,6 @@
-# flutter_redux_demo
+# flutter_cocktail_redux
 
-Create an applicaction with Flutter and Redux
+Create an applicaction with Flutter and Redux using a cocktails API
 
 ## Getting Started
 
