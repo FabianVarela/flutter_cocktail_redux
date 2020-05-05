@@ -1,4 +1,4 @@
-package com.developer.fabian.flutter_redux_demo
+package com.developer.fabian.flutter_cocktail_redux
 
 import android.os.Bundle
 
