@@ -7,11 +7,13 @@ class CocktailViewModel {
   final Function() getCategories;
   final List<CocktailCategory> categories;
   final CocktailCategory currentCategory;
+  final Function(CocktailCategory) setCocktailCategory;
 
   CocktailViewModel({
     this.getCategories,
     this.categories,
     this.currentCategory,
+    this.setCocktailCategory,
   });
 
   static CocktailViewModel fromStore(Store<AppState> store) {
@@ -19,6 +21,8 @@ class CocktailViewModel {
       getCategories: () => store.dispatch(GetCategoriesAction()),
       categories: store.state.categories,
       currentCategory: store.state.currentCategory,
+      setCocktailCategory: (CocktailCategory category) =>
+          store.dispatch(SetCategoryAction(category: category)),
     );
   }
 

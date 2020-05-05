@@ -38,7 +38,7 @@ class _CocktailListUIState extends State<CocktailListUI> {
             child: Column(
               children: <Widget>[
                 _setHeaders(),
-                _setDropDown(),
+                _setDropDown(viewModel),
               ],
             ),
           ),
@@ -79,7 +79,7 @@ class _CocktailListUIState extends State<CocktailListUI> {
     );
   }
 
-  Widget _setDropDown() {
+  Widget _setDropDown(CocktailViewModel viewModel) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Container(
@@ -92,9 +92,8 @@ class _CocktailListUIState extends State<CocktailListUI> {
         child: CustomDropDownCategory(
           categories: _categories ?? <CocktailCategory>[],
           currentCategory: _currentCategory,
-          setCurrentCategory: (CocktailCategory category) {
-            print('Category: ${category.category}');
-          },
+          setCurrentCategory: (CocktailCategory category) =>
+              viewModel.setCocktailCategory(category),
           fontSize: 16,
           hintText: 'Select a cocktail category',
         ),
