@@ -39,6 +39,8 @@ class _CocktailListUIState extends State<CocktailListUI> {
               children: <Widget>[
                 _setHeaders(),
                 _setDropDown(viewModel),
+                if (viewModel.cocktails.isNotEmpty) _setBody(viewModel),
+                if (viewModel.cocktails.isEmpty) _setEmptyData(),
               ],
             ),
           ),
@@ -97,6 +99,93 @@ class _CocktailListUIState extends State<CocktailListUI> {
           fontSize: 16,
           hintText: 'Select a cocktail category',
         ),
+      ),
+    );
+  }
+
+  Widget _setBody(CocktailViewModel viewModel) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            '${viewModel.currentCategory.category}: ${viewModel.cocktails.length}',
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.blueGrey,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * .7,
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: viewModel.cocktails.length,
+            itemBuilder: (_, int index) {
+              final Cocktail item = viewModel.cocktails[index];
+
+              return Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 16,
+                  ),
+                  leading: Image.network(
+                    item.image,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(
+                    item.name,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Ref: ${item.id}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _setEmptyData() {
+    return Container(
+      height: MediaQuery.of(context).size.height * .75,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Icon(
+              Icons.local_drink,
+              size: 90,
+              color: Colors.blueGrey,
+            ),
+          ),
+          Text(
+            'Oops! Empty data',
+            style: TextStyle(
+              fontSize: 40,
+              color: Colors.blueGrey,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -8,12 +8,14 @@ class CocktailViewModel {
   final List<CocktailCategory> categories;
   final CocktailCategory currentCategory;
   final Function(CocktailCategory) setCocktailCategory;
+  final List<Cocktail> cocktails;
 
   CocktailViewModel({
     this.getCategories,
     this.categories,
     this.currentCategory,
     this.setCocktailCategory,
+    this.cocktails,
   });
 
   static CocktailViewModel fromStore(Store<AppState> store) {
@@ -23,6 +25,7 @@ class CocktailViewModel {
       currentCategory: store.state.currentCategory,
       setCocktailCategory: (CocktailCategory category) =>
           store.dispatch(SetCategoryAction(category: category)),
+      cocktails: store.state.cocktails,
     );
   }
 
@@ -32,7 +35,8 @@ class CocktailViewModel {
       other is CocktailViewModel &&
           runtimeType == other.runtimeType &&
           categories == other.categories &&
-          currentCategory == other.currentCategory;
+          currentCategory == other.currentCategory &&
+          cocktails == other.cocktails;
 
   @override
   int get hashCode => 0;
