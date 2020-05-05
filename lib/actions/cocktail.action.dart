@@ -29,14 +29,14 @@ class CocktailCategoriesAction extends BaseAction {
   }
 }
 
-class GetCategoryAction extends BaseAction {
+class SetCategoryAction extends BaseAction {
   final CocktailCategory category;
 
-  GetCategoryAction({@required this.category});
+  SetCategoryAction({@required this.category});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{
-      'GetCategoryAction': this.category.toJson(),
+      'SetCategoryAction': this.category.toJson(),
     };
 
     return json;

@@ -12,7 +12,7 @@ List<CocktailCategory> categoriesReducer(
 }
 
 CocktailCategory categoryReducer(CocktailCategory state, BaseAction action) {
-  if (action is GetCategoryAction) {
+  if (action is SetCategoryAction) {
     return action.category;
   }
 
