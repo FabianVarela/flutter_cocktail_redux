@@ -5,11 +5,13 @@ class AppState {
   final List<CocktailCategory> categories;
   final CocktailCategory currentCategory;
   final Alert alert;
+  final bool isLoading;
 
   AppState({
     this.categories,
     this.currentCategory,
     this.alert,
+    this.isLoading,
   });
 
   static AppState fromJson(dynamic json) {
@@ -51,5 +53,6 @@ class AppState {
   AppState.initialState()
       : categories = <CocktailCategory>[],
         currentCategory = CocktailCategory(''),
-        alert = Alert();
+        alert = Alert(),
+        isLoading = false;
 }

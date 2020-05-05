@@ -13,10 +13,10 @@ class GetCategoriesAction extends BaseAction {
   }
 }
 
-class CocktailCategoriesAction extends BaseAction {
+class CategoriesAction extends BaseAction {
   final List<CocktailCategory> categories;
 
-  CocktailCategoriesAction({@required this.categories});
+  CategoriesAction({@required this.categories});
 
   Map<String, List<Map<String, dynamic>>> toJson() {
     final Map<String, List<Map<String, dynamic>>> json =

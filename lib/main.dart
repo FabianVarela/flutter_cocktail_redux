@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cocktail_redux/epics/cocktail.epic.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/reducers/main.reducer.dart';
+import 'package:flutter_cocktail_redux/view_model/alert.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/cocktail_list.ui.dart';
+import 'package:flutter_cocktail_redux/views/common/custom_loading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -66,10 +68,23 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: widget.store,
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: CocktailListUI(),
+      child: StoreConnector<AppState, AlertViewModel>(
+        distinct: true,
+        converter: AlertViewModel.fromStore,
+        builder: (BuildContext context, AlertViewModel viewModel) {
+          final bool isLoading = viewModel.isLoading ?? false;
+
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(primarySwatch: Colors.blue),
+            home: Stack(
+              children: <Widget>[
+                CocktailListUI(),
+                if (isLoading) CustomLoading(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

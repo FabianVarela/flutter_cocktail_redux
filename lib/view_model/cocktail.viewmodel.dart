@@ -1,4 +1,4 @@
-import 'package:flutter_cocktail_redux/actions/cocktail.action.dart';
+import 'package:flutter_cocktail_redux/actions/category.action.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:redux/redux.dart';

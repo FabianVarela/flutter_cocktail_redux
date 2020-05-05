@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_cocktail_redux/actions/alert.action.dart';
 import 'package:flutter_cocktail_redux/actions/base.action.dart';
-import 'package:flutter_cocktail_redux/actions/cocktail.action.dart';
+import 'package:flutter_cocktail_redux/actions/category.action.dart';
+import 'package:flutter_cocktail_redux/actions/loading.action.dart';
 import 'package:flutter_cocktail_redux/api/api_client.dart';
 import 'package:flutter_cocktail_redux/models/alert.model.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
@@ -17,7 +18,9 @@ Stream<dynamic> serviceCocktailEpic(
   await for (final dynamic action in actions) {
     switch (action.runtimeType) {
       case GetCategoriesAction:
+        yield LoadingAction(isLoading: true);
         yield await getCategoryList(apiClient);
+        yield LoadingAction(isLoading: false);
         break;
     }
   }
@@ -34,7 +37,7 @@ Future<BaseAction> getCategoryList(ApiClient api) async {
         categories.add(CocktailCategory.fromJson(item));
     }
 
-    return CocktailCategoriesAction(categories: categories);
+    return CategoriesAction(categories: categories);
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',
