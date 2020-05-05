@@ -4,12 +4,14 @@ import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 class AppState {
   final List<CocktailCategory> categories;
   final CocktailCategory currentCategory;
+  final List<Cocktail> cocktails;
   final Alert alert;
   final bool isLoading;
 
   AppState({
     this.categories,
     this.currentCategory,
+    this.cocktails,
     this.alert,
     this.isLoading,
   });
@@ -23,11 +25,19 @@ class AppState {
         });
       }
 
+      final List<Cocktail> cocktails = <Cocktail>[];
+      if (json['cocktails'] != null) {
+        json['cocktails'].forEach((dynamic item) {
+          cocktails.add(Cocktail.fromJson(item));
+        });
+      }
+
       return AppState(
         categories: categories,
         currentCategory: json['currentCategory'] != null
             ? CocktailCategory.fromJson(json['currentCategory'])
             : null,
+        cocktails: cocktails,
         alert: json['alert'] != null ? Alert.fromJson(json['alert']) : null,
       );
     } else {
@@ -47,12 +57,18 @@ class AppState {
       appStateData['currentCategory'] = this.currentCategory.toJson();
     }
 
+    if (this.cocktails != null) {
+      appStateData['cocktails'] =
+          this.cocktails.map((Cocktail c) => c.toJson()).toList();
+    }
+
     return appStateData;
   }
 
   AppState.initialState()
       : categories = <CocktailCategory>[],
         currentCategory = CocktailCategory(''),
+        cocktails = <Cocktail>[],
         alert = Alert(),
         isLoading = false;
 }
