@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_cocktail_redux/actions/alert.action.dart';
 import 'package:flutter_cocktail_redux/actions/base.action.dart';
 import 'package:flutter_cocktail_redux/actions/category.action.dart';
+import 'package:flutter_cocktail_redux/actions/cocktail.action.dart';
 import 'package:flutter_cocktail_redux/actions/loading.action.dart';
 import 'package:flutter_cocktail_redux/api/api_client.dart';
 import 'package:flutter_cocktail_redux/models/alert.model.dart';
@@ -20,6 +21,11 @@ Stream<dynamic> serviceCocktailEpic(
       case GetCategoriesAction:
         yield LoadingAction(isLoading: true);
         yield await getCategoryList(apiClient);
+        yield LoadingAction(isLoading: false);
+        break;
+      case SetCategoryAction:
+        yield LoadingAction(isLoading: true);
+        yield await getCocktailList(apiClient, action.category.category);
         yield LoadingAction(isLoading: false);
         break;
     }
@@ -43,6 +49,28 @@ Future<BaseAction> getCategoryList(ApiClient api) async {
       type: 'error',
       title: 'An error has ocurred',
       message: 'Try again later',
+    ));
+  }
+}
+
+Future<BaseAction> getCocktailList(ApiClient api, String category) async {
+  try {
+    final Response response = await api.getDrinksByCategory(category);
+
+    final dynamic decodedResponse = jsonDecode(response.body);
+    final List<Cocktail> cocktails = <Cocktail>[];
+
+    if (decodedResponse['drinks'] is List<dynamic>) {
+      for (final dynamic item in decodedResponse['drinks'])
+        cocktails.add(Cocktail.fromJson(item));
+    }
+
+    return CocktailsAction(cocktails: cocktails);
+  } catch (_) {
+    return AlertErrorAction(Alert(
+      type: 'error',
+      title: 'Ocurrió un error',
+      message: 'Intente más tarde',
     ));
   }
 }
