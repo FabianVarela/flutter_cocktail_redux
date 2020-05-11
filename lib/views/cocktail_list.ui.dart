@@ -131,6 +131,7 @@ class _CocktailListUIState extends State<CocktailListUI> {
                 elevation: 5,
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: ListTile(
+                  onTap: () => _goToDetail(item),
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 5,
                     horizontal: 16,
@@ -188,5 +189,13 @@ class _CocktailListUIState extends State<CocktailListUI> {
         ],
       ),
     );
+  }
+
+  void _goToDetail(Cocktail item) {
+    Navigator.of(context).pushNamed('/detail', arguments: <String, dynamic>{
+      'id': item.id,
+      'name': item.name,
+      'imageUrl': item.image,
+    });
   }
 }
