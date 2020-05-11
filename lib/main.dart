@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cocktail_redux/app.dart';
 import 'package:flutter_cocktail_redux/epics/cocktail.epic.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/reducers/main.reducer.dart';
-import 'package:flutter_cocktail_redux/view_model/alert.viewmodel.dart';
-import 'package:flutter_cocktail_redux/views/cocktail_list.ui.dart';
-import 'package:flutter_cocktail_redux/views/common/custom_loading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:redux_persist/redux_persist.dart';
@@ -18,22 +15,23 @@ Future<void> main() async {
 
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
-
   await DotEnv().load('.env');
 
+  /// Create Persist
   final Persistor<AppState> persist = Persistor<AppState>(
     debug: true,
     storage: FlutterStorage(location: FlutterSaveLocation.documentFile),
     serializer: JsonSerializer<AppState>(AppState.fromJson),
   );
 
-  final Epic<AppState> epics = combineEpics<AppState>(
-    <Epic<AppState>>[serviceCocktailEpic],
+  /// Epic Middleware
+  final EpicMiddleware<AppState> epicMiddleware = EpicMiddleware<AppState>(
+    combineEpics<AppState>(
+      <Epic<AppState>>[serviceCocktailEpic],
+    ),
   );
 
-  final EpicMiddleware<AppState> epicMiddleware =
-      EpicMiddleware<AppState>(epics);
-
+  /// Initial State with persist
   dynamic initialState;
 
   try {
@@ -42,6 +40,7 @@ Future<void> main() async {
     initialState = null;
   }
 
+  /// Create Store
   final Store<AppState> store = Store<AppState>(
     appReducer,
     initialState: initialState ?? AppState.initialState(),
@@ -51,41 +50,5 @@ Future<void> main() async {
     ],
   );
 
-  runApp(MyApp(store: store));
-}
-
-class MyApp extends StatefulWidget {
-  final Store<AppState> store;
-
-  MyApp({Key key, this.store}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return StoreProvider<AppState>(
-      store: widget.store,
-      child: StoreConnector<AppState, AlertViewModel>(
-        distinct: true,
-        converter: AlertViewModel.fromStore,
-        builder: (BuildContext context, AlertViewModel viewModel) {
-          final bool isLoading = viewModel.isLoading ?? false;
-
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(primarySwatch: Colors.blue),
-            home: Stack(
-              children: <Widget>[
-                CocktailListUI(),
-                if (isLoading) CustomLoading(),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+  runApp(App(store: store));
 }
