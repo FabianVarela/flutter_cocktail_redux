@@ -21,7 +21,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      initialRoute: '/list',
+      initialRoute: '/',
       theme: ThemeData(primarySwatch: Colors.blue),
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute<dynamic>(builder: (BuildContext ctx) {
@@ -49,7 +49,7 @@ class _AppState extends State<App> {
 
   Widget _setRoute(String routeName, [dynamic arguments]) {
     switch (routeName) {
-      case '/list':
+      case '/':
         return CocktailListUI();
       case '/detail':
         return CocktailDetailUI(
