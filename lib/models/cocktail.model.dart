@@ -75,3 +75,39 @@ class CocktailDetail {
     return map;
   }
 }
+
+class CocktailIngredient {
+  static final String imageUrl =
+      'https://www.thecocktaildb.com/images/ingredients/';
+
+  final String id;
+  final String name;
+  final String description;
+  final String type;
+  final bool isAlcohol;
+  final double volume;
+  final String image;
+
+  CocktailIngredient(this.id, this.name, this.description, this.type,
+      this.isAlcohol, this.volume, this.image);
+
+  CocktailIngredient.fromJson(Map<String, dynamic> json)
+      : this.id = json['idIngredient'],
+        this.name = json['strIngredient'],
+        this.description = json['strDescription'],
+        this.type = json['strType'],
+        this.isAlcohol = json['strAlcohol'] == 'Yes',
+        this.volume = double.parse(json['strABV'] ?? '0'),
+        this.image = '$imageUrl${json['strIngredient']}.png';
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'idIngredient': this.id,
+      'strIngredient': this.name,
+      'strDescription': this.description,
+      'strType': this.type,
+      'strAlcohol': this.isAlcohol ? 'Yes' : 'No',
+      'srtAVB': this.volume.toString(),
+    };
+  }
+}
