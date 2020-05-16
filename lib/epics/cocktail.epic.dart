@@ -33,6 +33,11 @@ Stream<dynamic> serviceCocktailEpic(
         yield await _getCocktailDetail(apiClient, action.id);
         yield LoadingAction(isLoading: false);
         break;
+      case SetCocktailIngredientAction:
+        yield LoadingAction(isLoading: true);
+        yield await _getCocktailIngredient(apiClient, action.name);
+        yield LoadingAction(isLoading: false);
+        break;
     }
   }
 }
@@ -93,6 +98,28 @@ Future<BaseAction> _getCocktailDetail(ApiClient api, String id) async {
     }
 
     return CocktailDetailsAction(cocktailDetails: cocktailDetails);
+  } catch (_) {
+    return AlertErrorAction(Alert(
+      type: 'error',
+      title: 'Ocurrió un error',
+      message: 'Intente más tarde',
+    ));
+  }
+}
+
+Future<BaseAction> _getCocktailIngredient(ApiClient api, String name) async {
+  try {
+    final Response response = await api.getDrinkIngredient(name);
+
+    final dynamic decodedResponse = jsonDecode(response.body);
+    final List<CocktailIngredient> cocktailIngredients = <CocktailIngredient>[];
+
+    if (decodedResponse['ingredients'] is List<dynamic>) {
+      for (final dynamic item in decodedResponse['ingredients'])
+        cocktailIngredients.add(CocktailIngredient.fromJson(item));
+    }
+
+    return CocktailIngredientsAction(cocktailIngredients: cocktailIngredients);
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',

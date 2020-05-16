@@ -9,6 +9,8 @@ AppState appReducer(AppState state, dynamic action) {
     currentCategory: categoryReducer(state.currentCategory, action),
     cocktails: cocktailsReducer(state.cocktails, action),
     cocktailDetails: cocktailDetailReducer(state.cocktailDetails, action),
+    cocktailIngredients:
+        cocktailIngredientReducer(state.cocktailIngredients, action),
     alert: alertReducer(state.alert, action),
     isLoading: loadingReducer(state.isLoading, action),
   );
