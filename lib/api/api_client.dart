@@ -36,6 +36,20 @@ class ApiClient {
     return response;
   }
 
+  Future<Response> getDetailDrink(String id) async {
+    final Uri uri = Uri(
+      scheme: 'https',
+      host: _apiUrl,
+      path: '/lookup.php',
+      queryParameters: <String, dynamic>{'i': id},
+    );
+
+    final Response response =
+        await _client.get(uri, headers: _setHeaders()).timeout(_duration);
+
+    return response;
+  }
+
   Map<String, String> _setHeaders() {
     return <String, String>{
       'x-rapidapi-host': _apiUrl,
