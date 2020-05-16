@@ -27,3 +27,12 @@ List<Cocktail> cocktailsReducer(List<Cocktail> state, BaseAction action) {
 
   return state;
 }
+
+List<CocktailDetail> cocktailDetailReducer(
+    List<CocktailDetail> state, BaseAction action) {
+  if (action is CocktailDetailsAction) {
+    return action.cocktailDetails;
+  }
+
+  return state;
+}

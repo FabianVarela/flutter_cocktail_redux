@@ -20,19 +20,24 @@ Stream<dynamic> serviceCocktailEpic(
     switch (action.runtimeType) {
       case GetCategoriesAction:
         yield LoadingAction(isLoading: true);
-        yield await getCategoryList(apiClient);
+        yield await _getCategoryList(apiClient);
         yield LoadingAction(isLoading: false);
         break;
       case SetCategoryAction:
         yield LoadingAction(isLoading: true);
-        yield await getCocktailList(apiClient, action.category.category);
+        yield await _getCocktailList(apiClient, action.category.category);
+        yield LoadingAction(isLoading: false);
+        break;
+      case SetCocktailNameAction:
+        yield LoadingAction(isLoading: true);
+        yield await _getCocktailDetail(apiClient, action.id);
         yield LoadingAction(isLoading: false);
         break;
     }
   }
 }
 
-Future<BaseAction> getCategoryList(ApiClient api) async {
+Future<BaseAction> _getCategoryList(ApiClient api) async {
   try {
     final Response response = await api.getCategoryList();
     final dynamic decodedResponse = jsonDecode(response.body);
@@ -53,7 +58,7 @@ Future<BaseAction> getCategoryList(ApiClient api) async {
   }
 }
 
-Future<BaseAction> getCocktailList(ApiClient api, String category) async {
+Future<BaseAction> _getCocktailList(ApiClient api, String category) async {
   try {
     final Response response = await api.getDrinksByCategory(category);
 
@@ -66,6 +71,28 @@ Future<BaseAction> getCocktailList(ApiClient api, String category) async {
     }
 
     return CocktailsAction(cocktails: cocktails);
+  } catch (_) {
+    return AlertErrorAction(Alert(
+      type: 'error',
+      title: 'Ocurrió un error',
+      message: 'Intente más tarde',
+    ));
+  }
+}
+
+Future<BaseAction> _getCocktailDetail(ApiClient api, String id) async {
+  try {
+    final Response response = await api.getDetailDrink(id);
+
+    final dynamic decodedResponse = jsonDecode(response.body);
+    final List<CocktailDetail> cocktailDetails = <CocktailDetail>[];
+
+    if (decodedResponse['drinks'] is List<dynamic>) {
+      for (final dynamic item in decodedResponse['drinks'])
+        cocktailDetails.add(CocktailDetail.fromJson(item));
+    }
+
+    return CocktailDetailsAction(cocktailDetails: cocktailDetails);
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',

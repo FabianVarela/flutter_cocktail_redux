@@ -5,6 +5,7 @@ class AppState {
   final List<CocktailCategory> categories;
   final CocktailCategory currentCategory;
   final List<Cocktail> cocktails;
+  final List<CocktailDetail> cocktailDetails;
   final Alert alert;
   final bool isLoading;
 
@@ -12,6 +13,7 @@ class AppState {
     this.categories,
     this.currentCategory,
     this.cocktails,
+    this.cocktailDetails,
     this.alert,
     this.isLoading,
   });
@@ -32,12 +34,20 @@ class AppState {
         });
       }
 
+      final List<CocktailDetail> cocktailDetails = <CocktailDetail>[];
+      if (json['cocktailDetails'] != null) {
+        json['cocktailDetails'].forEach((dynamic item) {
+          cocktailDetails.add(CocktailDetail.fromJson(item));
+        });
+      }
+
       return AppState(
         categories: categories,
         currentCategory: json['currentCategory'] != null
             ? CocktailCategory.fromJson(json['currentCategory'])
             : null,
         cocktails: cocktails,
+        cocktailDetails: cocktailDetails,
         alert: json['alert'] != null ? Alert.fromJson(json['alert']) : null,
       );
     } else {
@@ -62,6 +72,11 @@ class AppState {
           this.cocktails.map((Cocktail c) => c.toJson()).toList();
     }
 
+    if (this.cocktailDetails != null) {
+      appStateData['cocktailDetails'] =
+          this.cocktailDetails.map((CocktailDetail cd) => cd.toJson()).toList();
+    }
+
     return appStateData;
   }
 
@@ -69,6 +84,7 @@ class AppState {
       : categories = <CocktailCategory>[],
         currentCategory = CocktailCategory(''),
         cocktails = <Cocktail>[],
+        cocktailDetails = <CocktailDetail>[],
         alert = Alert(),
         isLoading = false;
 }

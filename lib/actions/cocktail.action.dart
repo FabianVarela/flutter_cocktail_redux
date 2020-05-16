@@ -9,9 +9,39 @@ class CocktailsAction extends BaseAction {
 
   Map<String, List<Map<String, dynamic>>> toJson() {
     final Map<String, List<Map<String, dynamic>>> json =
-    Map<String, List<Map<String, dynamic>>>();
+        Map<String, List<Map<String, dynamic>>>();
 
     json['CocktailsAction'] = this.cocktails.map((Cocktail c) => c.toJson());
+
+    return json;
+  }
+}
+
+class SetCocktailNameAction extends BaseAction {
+  final String id;
+
+  SetCocktailNameAction({@required this.id});
+
+  Map<String, String> toJson() {
+    final Map<String, String> json = <String, String>{
+      'SetCocktailNameAction': this.id,
+    };
+
+    return json;
+  }
+}
+
+class CocktailDetailsAction extends BaseAction {
+  final List<CocktailDetail> cocktailDetails;
+
+  CocktailDetailsAction({@required this.cocktailDetails});
+
+  Map<String, List<Map<String, dynamic>>> toJson() {
+    final Map<String, List<Map<String, dynamic>>> json =
+        Map<String, List<Map<String, dynamic>>>();
+
+    json['CocktailDetailsAction'] =
+        this.cocktailDetails.map((CocktailDetail cd) => cd.toJson());
 
     return json;
   }
