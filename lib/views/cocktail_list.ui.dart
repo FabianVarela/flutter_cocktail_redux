@@ -39,8 +39,10 @@ class _CocktailListUIState extends State<CocktailListUI> {
               children: <Widget>[
                 _setHeaders(),
                 _setDropDown(viewModel),
-                if (viewModel.cocktails.isNotEmpty) _setBody(viewModel),
-                if (viewModel.cocktails.isEmpty) _setEmptyData(),
+                if (viewModel.cocktails.isNotEmpty)
+                  _setBody(viewModel),
+                if (viewModel.cocktails.isEmpty)
+                  _setEmptyData(),
               ],
             ),
           ),
@@ -136,9 +138,12 @@ class _CocktailListUIState extends State<CocktailListUI> {
                     vertical: 5,
                     horizontal: 16,
                   ),
-                  leading: Image.network(
-                    item.image,
-                    fit: BoxFit.cover,
+                  leading: Hero(
+                    tag: 'cocktail_${item.id}',
+                    child: Image.network(
+                      item.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   title: Text(
                     item.name,
