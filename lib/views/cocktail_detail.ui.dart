@@ -238,7 +238,7 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
                     if ((ingredient != null && ingredient.trim().isNotEmpty) ||
                         (measure != null && measure.trim().isNotEmpty)) {
                       return GestureDetector(
-                        onTap: () => print('$ingredient'),
+                        onTap: () => _goToIngredient(ingredient),
                         child: Card(
                           elevation: 10,
                           shape: RoundedRectangleBorder(
@@ -311,5 +311,11 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
         ],
       ),
     );
+  }
+
+  void _goToIngredient(String ingredient) {
+    Navigator.of(context).pushNamed('/ingredient', arguments: <String, dynamic>{
+      'name': ingredient,
+    });
   }
 }

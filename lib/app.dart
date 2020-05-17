@@ -4,6 +4,7 @@ import 'package:flutter_cocktail_redux/view_model/alert.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/cocktail_detail.ui.dart';
 import 'package:flutter_cocktail_redux/views/cocktail_list.ui.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_loading.dart';
+import 'package:flutter_cocktail_redux/views/ingredient_detail.ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -56,6 +57,10 @@ class _AppState extends State<App> {
           id: arguments['id'] as String,
           name: arguments['name'] as String,
           imageUrl: arguments['imageUrl'] as String,
+        );
+      case '/ingredient':
+        return IngredientDetailUI(
+          name: arguments['name'] as String,
         );
       default:
         return Container();
