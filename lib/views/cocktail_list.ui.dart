@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
@@ -39,10 +40,8 @@ class _CocktailListUIState extends State<CocktailListUI> {
               children: <Widget>[
                 _setHeaders(),
                 _setDropDown(viewModel),
-                if (viewModel.cocktails.isNotEmpty)
-                  _setBody(viewModel),
-                if (viewModel.cocktails.isEmpty)
-                  _setEmptyData(),
+                if (viewModel.cocktails.isNotEmpty) _setBody(viewModel),
+                if (viewModel.cocktails.isEmpty) _setEmptyData(),
               ],
             ),
           ),
@@ -140,9 +139,17 @@ class _CocktailListUIState extends State<CocktailListUI> {
                   ),
                   leading: Hero(
                     tag: 'cocktail_${item.id}',
-                    child: Image.network(
-                      item.image,
+                    child: CachedNetworkImage(
+                      imageUrl: item.image,
                       fit: BoxFit.cover,
+                      progressIndicatorBuilder:
+                          (_, __, dynamic downloadProgress) =>
+                              CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                      ),
+                      errorWidget: (_, __, ___) => Center(
+                        child: Icon(Icons.error, color: Colors.red),
+                      ),
                     ),
                   ),
                   title: Text(
