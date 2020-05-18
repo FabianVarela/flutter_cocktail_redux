@@ -4,6 +4,7 @@ import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:flutter_cocktail_redux/view_model/cocktail.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_drop_down.dart';
+import 'package:flutter_cocktail_redux/views/common/custom_header.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CocktailListUI extends StatefulWidget {
@@ -51,33 +52,15 @@ class _CocktailListUIState extends State<CocktailListUI> {
   }
 
   Widget _setHeaders() {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Align(
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.search),
-              ),
-              Text(
-                'Cocktails',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.sync),
-                onPressed: () {},
-              )
-            ],
-          ),
-        ),
+    return CustomHeader(
+      leading: Icon(
+        Icons.search,
+        color: Colors.blueGrey,
+      ),
+      title: 'Cocktails',
+      trailing: Icon(
+        Icons.sync,
+        color: Colors.blueGrey,
       ),
     );
   }

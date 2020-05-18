@@ -4,6 +4,7 @@ import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:flutter_cocktail_redux/view_model/cocktail_detail.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_clipper.dart';
+import 'package:flutter_cocktail_redux/views/common/custom_header.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CocktailDetailUI extends StatefulWidget {
@@ -30,10 +31,10 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
       distinct: true,
       converter: CocktailDetailViewModel.fromStore,
       onInitialBuild: (CocktailDetailViewModel viewModel) =>
-      Future<void>.delayed(Duration(milliseconds: 150),
+          Future<void>.delayed(Duration(milliseconds: 150),
               () => viewModel.setCocktailDetail(widget.id)),
       onWillChange: (_, CocktailDetailViewModel viewModel) =>
-      _cocktailDetail = viewModel.cocktailDetails[0],
+          _cocktailDetail = viewModel.cocktailDetails[0],
       builder: (_, CocktailDetailViewModel viewModel) {
         return Scaffold(
           body: Stack(
@@ -48,42 +49,18 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
   }
 
   Widget _setHeader() {
-    return SafeArea(
-      bottom: false,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                widget.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.share,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          ],
+    return CustomHeader(
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.blueGrey,
         ),
+      ),
+      title: widget.name,
+      trailing: Icon(
+        Icons.share,
+        color: Colors.blueGrey,
       ),
     );
   }

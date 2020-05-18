@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:flutter_cocktail_redux/view_model/cocktail_ingredient.viewmodel.dart';
+import 'package:flutter_cocktail_redux/views/common/custom_header.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class IngredientDetailUI extends StatefulWidget {
@@ -41,39 +42,18 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
   }
 
   Widget _setHeader() {
-    return SafeArea(
-      bottom: false,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                size: 30,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                widget.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.share,
-                size: 30,
-              ),
-            ),
-          ],
+    return CustomHeader(
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.blueGrey,
         ),
+      ),
+      title: widget.name,
+      trailing: Icon(
+        Icons.share,
+        color: Colors.blueGrey,
       ),
     );
   }
@@ -84,7 +64,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
     }
 
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+      padding: EdgeInsets.fromLTRB(20, 100, 20, 0),
       width: double.infinity,
       child: Column(
         children: <Widget>[
