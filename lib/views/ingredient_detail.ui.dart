@@ -32,6 +32,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
             children: <Widget>[
               _setBody(),
               _setHeader(),
+              _setCardDescription(),
             ],
           ),
         );
@@ -82,25 +83,18 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
       return _setEmptyData();
     }
 
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(child: _setMainData()),
-                Expanded(child: _setImage()),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: _setCardDescription(),
-            ),
-          ],
-        ),
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(child: _setMainData()),
+              Expanded(child: _setImage()),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -145,15 +139,38 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
           height: 250,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(_cocktailIngredient.id),
-              Text(_cocktailIngredient.name),
-              Text(_cocktailIngredient.type ?? 'No type'),
-              Text('${_cocktailIngredient.isAlcohol}'),
-              Text('${_cocktailIngredient.volume}'),
+              _setTitleMessage('Ref.: ', _cocktailIngredient.id),
+              _setTitleMessage('Name: ', _cocktailIngredient.name),
+              _setTitleMessage('Type: ', _cocktailIngredient.type ?? 'No type'),
+              _setTitleMessage(
+                  'Alcholic: ', _cocktailIngredient.isAlcohol ? 'Yes' : 'No'),
+              _setTitleMessage('Vol %: ', '${_cocktailIngredient.volume}'),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _setTitleMessage(String title, String message) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.blueGrey,
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: title,
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
+          TextSpan(
+            text: message,
+            style: TextStyle(fontWeight: FontWeight.w300),
+          ),
+        ],
       ),
     );
   }
@@ -174,20 +191,28 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
                 margin: EdgeInsets.symmetric(vertical: 80, horizontal: 30),
                 child: CircularProgressIndicator(
                   value: downloadProgress.progress,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
                   strokeWidth: 6,
                 ),
               );
             },
             errorWidget: (_, __, ___) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.error, color: Colors.red),
-                  Text(
-                    'Error to load the image',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ],
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Icon(Icons.error, color: Colors.red),
+                    ),
+                    Text(
+                      'Error to load image',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -197,18 +222,34 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
   }
 
   Widget _setCardDescription() {
-    return Card(
-      elevation: 10,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    if (_cocktailIngredient == null) {
+      return Container();
+    }
+
+    return Positioned(
+      top: 430,
+      bottom: 0,
+      left: 0,
+      right: 0,
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.all(20),
-        child: Text(
-          _cocktailIngredient.description ?? 'Description not found',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            color: Colors.blueGrey,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[BoxShadow(blurRadius: 10)],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Text(
+            _cocktailIngredient.description ?? 'Description not found',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              color: Colors.blueGrey,
+            ),
           ),
         ),
       ),

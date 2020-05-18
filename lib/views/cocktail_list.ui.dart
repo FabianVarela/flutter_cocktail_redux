@@ -143,12 +143,22 @@ class _CocktailListUIState extends State<CocktailListUI> {
                       imageUrl: item.image,
                       fit: BoxFit.cover,
                       progressIndicatorBuilder:
-                          (_, __, dynamic downloadProgress) =>
-                              CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                      ),
-                      errorWidget: (_, __, ___) => Center(
-                        child: Icon(Icons.error, color: Colors.red),
+                          (_, __, dynamic downloadProgress) {
+                        return CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blueGrey),
+                        );
+                      },
+                      errorWidget: (_, __, ___) => Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 30,
+                          ),
+                        ],
                       ),
                     ),
                   ),
