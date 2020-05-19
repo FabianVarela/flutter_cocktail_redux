@@ -1,6 +1,20 @@
 import 'package:flutter_cocktail_redux/actions/base.action.dart';
 import 'package:flutter_cocktail_redux/models/alert.model.dart';
 
+class AlertGenericAction extends BaseAction {
+  final Alert alert;
+
+  AlertGenericAction(this.alert);
+
+  Map<String, String> toJson() {
+    final Map<String, String> json = <String, String>{
+      'GenericAction': alert.toString(),
+    };
+
+    return json;
+  }
+}
+
 class AlertWarningAction extends BaseAction {
   final Alert alert;
 
