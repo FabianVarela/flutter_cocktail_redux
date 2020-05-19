@@ -57,8 +57,8 @@ Future<BaseAction> _getCategoryList(ApiClient api) async {
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',
-      title: 'An error has ocurred',
-      message: 'Try again later',
+      title: 'An error has ocurred: ',
+      message: 'Error to get category list. Try again later',
     ));
   }
 }
@@ -79,8 +79,8 @@ Future<BaseAction> _getCocktailList(ApiClient api, String category) async {
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',
-      title: 'Ocurrió un error',
-      message: 'Intente más tarde',
+      title: 'An error has ocurred: ',
+      message: 'Error to get cocktail list. Try again later',
     ));
   }
 }
@@ -101,8 +101,8 @@ Future<BaseAction> _getCocktailDetail(ApiClient api, String id) async {
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',
-      title: 'Ocurrió un error',
-      message: 'Intente más tarde',
+      title: 'An error has ocurred: ',
+      message: 'Error to get cocktail detail. Try again later',
     ));
   }
 }
@@ -123,8 +123,8 @@ Future<BaseAction> _getCocktailIngredient(ApiClient api, String name) async {
   } catch (_) {
     return AlertErrorAction(Alert(
       type: 'error',
-      title: 'Ocurrió un error',
-      message: 'Intente más tarde',
+      title: 'An error has ocurred: ',
+      message: 'Error to get ingredient detail. Try again later',
     ));
   }
 }
