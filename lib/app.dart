@@ -7,6 +7,7 @@ import 'package:flutter_cocktail_redux/views/cocktail_list.ui.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_loading.dart';
 import 'package:flutter_cocktail_redux/views/ingredient_detail.ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:redux/redux.dart';
 
 class App extends StatefulWidget {
@@ -24,9 +25,12 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Cocktails',
       initialRoute: '/',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        textTheme: GoogleFonts.muliTextTheme(Theme.of(context).textTheme),
+        primarySwatch: Colors.blue,
+      ),
       builder: (_, Widget child) => Scaffold(key: _scaffoldKey, body: child),
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute<dynamic>(builder: (_) {
@@ -87,6 +91,7 @@ class _AppState extends State<App> {
         SnackBar(
           content: RichText(
             text: TextSpan(
+              style: GoogleFonts.muli(),
               children: <TextSpan>[
                 TextSpan(
                   text: title,
