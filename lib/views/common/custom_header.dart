@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomHeader extends StatelessWidget {
   CustomHeader({@required this.title, this.leading, this.trailing});
 
-  final String title;
+  final Widget title;
   final Widget leading;
   final Widget trailing;
 
@@ -17,19 +17,27 @@ class CustomHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (leading != null) leading,
-            Expanded(
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.blueGrey,
+            if (leading != null)
+              Expanded(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: leading,
                 ),
               ),
+            Expanded(
+              flex: 3,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: title,
+              ),
             ),
-            if (trailing != null) trailing,
+            if (trailing != null)
+              Expanded(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: trailing,
+                ),
+              ),
           ],
         ),
       ),
