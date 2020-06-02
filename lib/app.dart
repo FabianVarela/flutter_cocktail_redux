@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cocktail_redux/models/alert.model.dart';
 import 'package:flutter_cocktail_redux/models/app_state.dart';
+import 'package:flutter_cocktail_redux/utils/themes.dart';
 import 'package:flutter_cocktail_redux/view_model/alert.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/cocktail_detail.ui.dart';
 import 'package:flutter_cocktail_redux/views/cocktail_list.ui.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_loading.dart';
 import 'package:flutter_cocktail_redux/views/ingredient_detail.ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:redux/redux.dart';
 
 class App extends StatefulWidget {
@@ -24,19 +24,16 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Cocktails',
-      initialRoute: '/',
-      theme: ThemeData(
-        textTheme: GoogleFonts.muliTextTheme(Theme.of(context).textTheme),
-        primarySwatch: Colors.blue,
-      ),
-      builder: (_, Widget child) => Scaffold(key: _scaffoldKey, body: child),
-      onGenerateRoute: (RouteSettings settings) {
-        return MaterialPageRoute<dynamic>(builder: (_) {
-          return StoreProvider<AppState>(
-            store: widget.store,
-            child: StoreConnector<AppState, AlertViewModel>(
+    return StoreProvider<AppState>(
+      store: widget.store,
+      child: MaterialApp(
+        title: 'Flutter Cocktails',
+        initialRoute: '/',
+        theme: Themes.getDarkTheme(Theme.of(context).textTheme),
+        builder: (_, Widget child) => Scaffold(key: _scaffoldKey, body: child),
+        onGenerateRoute: (RouteSettings settings) {
+          return MaterialPageRoute<dynamic>(builder: (_) {
+            return StoreConnector<AppState, AlertViewModel>(
               distinct: true,
               converter: AlertViewModel.fromStore,
               onWillChange: (_, AlertViewModel viewModel) {
@@ -59,10 +56,10 @@ class _AppState extends State<App> {
                   ],
                 );
               },
-            ),
-          );
-        });
-      },
+            );
+          });
+        },
+      ),
     );
   }
 
@@ -89,19 +86,11 @@ class _AppState extends State<App> {
     Future<void>.delayed(Duration(milliseconds: 100), () {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          content: RichText(
-            text: TextSpan(
-              style: GoogleFonts.muli(),
-              children: <TextSpan>[
-                TextSpan(
-                  text: title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                ),
-                TextSpan(
-                  text: message,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
-                ),
-              ],
+          content: Text(
+            '$title $message',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w300,
             ),
           ),
           duration: Duration(seconds: 3),
