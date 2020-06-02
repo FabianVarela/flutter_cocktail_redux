@@ -4,8 +4,8 @@ import 'package:flutter_cocktail_redux/models/app_state.dart';
 import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:flutter_cocktail_redux/view_model/cocktail_ingredient.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_header.dart';
+import 'package:flutter_cocktail_redux/views/common/custom_widget_shadow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class IngredientDetailUI extends StatefulWidget {
   IngredientDetailUI({@required this.name});
@@ -18,9 +18,12 @@ class IngredientDetailUI extends StatefulWidget {
 
 class _IngredientDetailState extends State<IngredientDetailUI> {
   CocktailIngredient _cocktailIngredient;
+  TextTheme _textTheme;
 
   @override
   Widget build(BuildContext context) {
+    _textTheme = Theme.of(context).textTheme;
+
     return StoreConnector<AppState, CocktailIngredientViewModel>(
       distinct: true,
       converter: CocktailIngredientViewModel.fromStore,
@@ -30,6 +33,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
           _cocktailIngredient = viewModel.cocktailIngredients[0],
       builder: (_, CocktailIngredientViewModel viewModel) {
         return Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Stack(
             children: <Widget>[
               _setBody(),
@@ -46,24 +50,19 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
     return CustomHeader(
       leading: GestureDetector(
         onTap: () => Navigator.pop(context),
-        child: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.blueGrey,
+        child: Icon(Icons.arrow_back_ios),
+      ),
+      title: CustomWidgetShadow(
+        child: Text(
+          widget.name,
+          textAlign: TextAlign.center,
+          style: _textTheme.headline1.copyWith(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
-      title: Text(
-        widget.name,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w700,
-          color: Colors.blueGrey,
-        ),
-      ),
-      trailing: Icon(
-        Icons.share,
-        color: Colors.blueGrey,
-      ),
+      trailing: Icon(Icons.share),
     );
   }
 
@@ -98,19 +97,14 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
-            child: Icon(
-              Icons.warning,
-              color: Colors.blueGrey,
-              size: 100,
-            ),
+            child: Icon(Icons.warning, size: 100),
           ),
           Text(
             'No exists data to ${widget.name}',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: _textTheme.headline1.copyWith(
               fontSize: 30,
               fontWeight: FontWeight.w400,
-              color: Colors.blueGrey,
             ),
           ),
         ],
@@ -121,6 +115,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
   Widget _setMainData() {
     return Card(
       elevation: 10,
+      color: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -146,10 +141,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
   Widget _setTitleMessage(String title, String message) {
     return RichText(
       text: TextSpan(
-        style: GoogleFonts.muli(
-          fontSize: 16,
-          color: Colors.blueGrey,
-        ),
+        style: _textTheme.bodyText1.copyWith(fontSize: 16),
         children: <TextSpan>[
           TextSpan(
             text: title,
@@ -167,6 +159,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
   Widget _setImage() {
     return Card(
       elevation: 10,
+      color: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -180,7 +173,6 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
                 margin: EdgeInsets.symmetric(vertical: 80, horizontal: 30),
                 child: CircularProgressIndicator(
                   value: downloadProgress.progress,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
                   strokeWidth: 6,
                 ),
               );
@@ -193,12 +185,18 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 5),
-                      child: Icon(Icons.error, color: Colors.red),
+                      child: Icon(
+                        Icons.error,
+                        color: Theme.of(context).errorColor,
+                      ),
                     ),
                     Text(
                       'Error to load image',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).errorColor,
+                      ),
                     ),
                   ],
                 ),
@@ -224,7 +222,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
         width: double.infinity,
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           boxShadow: <BoxShadow>[BoxShadow(blurRadius: 10)],
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
@@ -234,10 +232,9 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
         child: SingleChildScrollView(
           child: Text(
             _cocktailIngredient.description ?? 'Description not found',
-            style: TextStyle(
+            style: _textTheme.bodyText1.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.w400,
-              color: Colors.blueGrey,
             ),
           ),
         ),

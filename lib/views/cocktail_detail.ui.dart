@@ -25,9 +25,12 @@ class CocktailDetailUI extends StatefulWidget {
 
 class _CocktailDetailUIState extends State<CocktailDetailUI> {
   CocktailDetail _cocktailDetail;
+  TextTheme _textTheme;
 
   @override
   Widget build(BuildContext context) {
+    _textTheme = Theme.of(context).textTheme;
+
     return StoreConnector<AppState, CocktailDetailViewModel>(
       distinct: true,
       converter: CocktailDetailViewModel.fromStore,
@@ -38,6 +41,7 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
           _cocktailDetail = viewModel.cocktailDetails[0],
       builder: (_, CocktailDetailViewModel viewModel) {
         return Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Stack(
             children: <Widget>[
               _setBody(),
@@ -54,29 +58,20 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
       leading: GestureDetector(
         onTap: () => Navigator.pop(context),
         child: CustomWidgetShadow(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.blueGrey,
-          ),
+          child: Icon(Icons.arrow_back_ios),
         ),
       ),
       title: CustomWidgetShadow(
         child: Text(
           widget.name,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: _textTheme.headline1.copyWith(
             fontSize: 22,
             fontWeight: FontWeight.w700,
-            color: Colors.blueGrey,
           ),
         ),
       ),
-      trailing: CustomWidgetShadow(
-        child: Icon(
-          Icons.share,
-          color: Colors.blueGrey,
-        ),
-      ),
+      trailing: CustomWidgetShadow(child: Icon(Icons.share)),
     );
   }
 
@@ -110,19 +105,14 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
-            child: Icon(
-              Icons.warning,
-              color: Colors.blueGrey,
-              size: 60,
-            ),
+            child: Icon(Icons.warning, size: 60),
           ),
           Text(
             'Data not found for ${widget.name}',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: _textTheme.headline1.copyWith(
               fontSize: 30,
               fontWeight: FontWeight.w400,
-              color: Colors.blueGrey,
             ),
           ),
         ],
@@ -146,6 +136,7 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
   Widget _setCardMain() {
     return Card(
       elevation: 10,
+      color: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
         width: double.infinity,
@@ -158,18 +149,16 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
                   flex: 1,
                   child: Text(
                     _cocktailDetail.name,
-                    style: TextStyle(
+                    style: _textTheme.bodyText1.copyWith(
                       fontSize: 25,
-                      color: Colors.blueGrey,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Text(
                   _cocktailDetail.category,
-                  style: TextStyle(
+                  style: _textTheme.bodyText1.copyWith(
                     fontSize: 16,
-                    color: Colors.blueGrey,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
@@ -183,18 +172,16 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
                   children: <Widget>[
                     Text(
                       'Alcoholic',
-                      style: TextStyle(
+                      style: _textTheme.bodyText1.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
-                        color: Colors.blueGrey,
                       ),
                     ),
                     Text(
                       _cocktailDetail.isAlcoholic ? 'Yes' : 'No',
-                      style: TextStyle(
+                      style: _textTheme.bodyText1.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Colors.blueGrey,
                       ),
                     ),
                   ],
@@ -203,18 +190,16 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
                   children: <Widget>[
                     Text(
                       'Glass',
-                      style: TextStyle(
+                      style: _textTheme.bodyText1.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
-                        color: Colors.blueGrey,
                       ),
                     ),
                     Text(
                       _cocktailDetail.glass,
-                      style: TextStyle(
+                      style: _textTheme.bodyText1.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Colors.blueGrey,
                       ),
                     )
                   ],
@@ -236,10 +221,9 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
             alignment: Alignment.centerLeft,
             child: Text(
               'Ingredients',
-              style: TextStyle(
+              style: _textTheme.headline1.copyWith(
                 fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Colors.blueGrey,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -269,19 +253,17 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
                             Text(
                               ingredient,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.w500,
+                              style: _textTheme.subtitle1.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                             Text(
                               measure ?? '',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: _textTheme.subtitle2.copyWith(
                                 fontSize: 16,
-                                color: Colors.blueGrey.withOpacity(.6),
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w100,
                               ),
                             ),
                           ],
@@ -311,10 +293,9 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
             alignment: Alignment.centerLeft,
             child: Text(
               'Instructions',
-              style: TextStyle(
+              style: _textTheme.headline1.copyWith(
                 fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Colors.blueGrey,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -324,10 +305,9 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
               _cocktailDetail.instruction.isNotEmpty
                   ? _cocktailDetail.instruction
                   : 'No instructions found',
-              style: TextStyle(
+              style: _textTheme.bodyText1.copyWith(
                 fontSize: 16,
                 fontWeight: FontWeight.w300,
-                color: Colors.blueGrey,
               ),
             ),
           ),
