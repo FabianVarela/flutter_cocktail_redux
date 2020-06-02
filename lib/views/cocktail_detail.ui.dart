@@ -5,6 +5,7 @@ import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:flutter_cocktail_redux/view_model/cocktail_detail.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_clipper.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_header.dart';
+import 'package:flutter_cocktail_redux/views/common/custom_widget_shadow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CocktailDetailUI extends StatefulWidget {
@@ -52,15 +53,29 @@ class _CocktailDetailUIState extends State<CocktailDetailUI> {
     return CustomHeader(
       leading: GestureDetector(
         onTap: () => Navigator.pop(context),
-        child: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.blueGrey,
+        child: CustomWidgetShadow(
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.blueGrey,
+          ),
         ),
       ),
-      title: widget.name,
-      trailing: Icon(
-        Icons.share,
-        color: Colors.blueGrey,
+      title: CustomWidgetShadow(
+        child: Text(
+          widget.name,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+            color: Colors.blueGrey,
+          ),
+        ),
+      ),
+      trailing: CustomWidgetShadow(
+        child: Icon(
+          Icons.share,
+          color: Colors.blueGrey,
+        ),
       ),
     );
   }

@@ -57,7 +57,15 @@ class _CocktailListUIState extends State<CocktailListUI> {
         Icons.search,
         color: Colors.blueGrey,
       ),
-      title: 'Cocktails',
+      title: Text(
+        'Cocktails',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
+          color: Colors.blueGrey,
+        ),
+      ),
       trailing: Icon(
         Icons.sync,
         color: Colors.blueGrey,

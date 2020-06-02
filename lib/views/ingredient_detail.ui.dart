@@ -5,6 +5,7 @@ import 'package:flutter_cocktail_redux/models/cocktail.model.dart';
 import 'package:flutter_cocktail_redux/view_model/cocktail_ingredient.viewmodel.dart';
 import 'package:flutter_cocktail_redux/views/common/custom_header.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class IngredientDetailUI extends StatefulWidget {
   IngredientDetailUI({@required this.name});
@@ -50,7 +51,15 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
           color: Colors.blueGrey,
         ),
       ),
-      title: widget.name,
+      title: Text(
+        widget.name,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
+          color: Colors.blueGrey,
+        ),
+      ),
       trailing: Icon(
         Icons.share,
         color: Colors.blueGrey,
@@ -64,7 +73,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
     }
 
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 100, 20, 0),
+      padding: EdgeInsets.fromLTRB(20, 110, 20, 0),
       width: double.infinity,
       child: Column(
         children: <Widget>[
@@ -137,7 +146,7 @@ class _IngredientDetailState extends State<IngredientDetailUI> {
   Widget _setTitleMessage(String title, String message) {
     return RichText(
       text: TextSpan(
-        style: TextStyle(
+        style: GoogleFonts.muli(
           fontSize: 16,
           color: Colors.blueGrey,
         ),
