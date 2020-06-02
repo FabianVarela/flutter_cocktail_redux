@@ -8,12 +8,10 @@ class CustomLoading extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
-        decoration: BoxDecoration(color: Color(0xFF000000).withOpacity(.3)),
-        child: Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
-          ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor.withOpacity(.3),
         ),
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }
